@@ -2,87 +2,125 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class NoteDetails extends StatefulWidget {
+  String appBarTittle;
+
+  NoteDetails(this.appBarTittle);
+
   @override
   State<StatefulWidget> createState() {
-    return NoteStateDetails();
+    return NoteStateDetails(this.appBarTittle);
   }
 }
 
 class NoteStateDetails extends State<NoteDetails> {
+  String appBarTittle;
+
   String dropDownValue = "low";
   TextEditingController titleController = TextEditingController();
   TextEditingController descrptionController = TextEditingController();
 
+  NoteStateDetails(this.appBarTittle);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Note Details'),
-      ),
-      body: Padding(padding: EdgeInsets.all(10.0),
-        child:ListView(
-          children: [
-            DropdownButton<String>(
-              value: dropDownValue,
-              icon: Icon(Icons.arrow_downward),
-              iconSize: 24,
-              elevation: 16,
-              style: TextStyle(color: Colors.deepPurple),
-              underline: Container(
-                height: 2,
-                color: Colors.deepPurpleAccent,
-              ),
-              onChanged: (String newValue) {
-                setState(() {
-                  dropDownValue = newValue;
-                });
-              },
-              items: <String>[
-                'low',
-                'Meduim',
-                'High',
-              ].map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: ("Title"),
-                hintText: "Enter title note",
-              ),
-            ),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Enter title Description",
-              ),
-            ),
-            Row(
-              children: [
-                RaisedButton(
-                  onPressed: () {},
-                  color: Colors.deepPurple,
-                  child: Text(
-                    "Save",
-                    style: TextStyle(color: Colors.white),
-                  ),
+        appBar: AppBar(
+          title: Text(appBarTittle),
+        ),
+        body: Padding(
+          padding: EdgeInsets.all(10.0),
+          child: ListView(
+            children: [
+              DropdownButton<String>(
+                value: dropDownValue,
+                iconSize: 24,
+                elevation: 16,
+                style: TextStyle(color: Colors.deepPurple),
+                underline: Container(
+                  height: 2,
+                  color: Colors.deepPurpleAccent,
                 ),
-                RaisedButton(
-                  onPressed: () {},
-                  color: Colors.deepPurple,
-                  child: Text(
-                    "Delete",
-                    style: TextStyle(color: Colors.white),
+                onChanged: (String newValue) {
+                  setState(() {
+                    dropDownValue = newValue;
+                  });
+                },
+                items: <String>[
+                  'low',
+                  'High',
+                ].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0)),
+                    labelText: ("Title"),
+                    hintText: "Enter title note",
                   ),
-                )
-              ],
-            ),
-          ],
-        ), )
-    );
+                  controller: titleController,
+                  onChanged: (value) {
+                    debugPrint("value changed");
+                  },
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0)),
+                    hintText: "Enter title Description",
+                  ),
+                  controller: descrptionController,
+                  onChanged: (value) {
+                    debugPrint("value changed");
+                  },
+                ),
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: RaisedButton(
+                      onPressed: () {
+                        setState(() {
+                          debugPrint("save was clicked");
+                        });
+                      },
+                      color: Colors.deepPurple,
+                      child: Text(
+                        "Save",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 5.0,
+                  ),
+                  Expanded(
+                      child: RaisedButton(
+                    onPressed: () {
+                      setState(() {
+                        debugPrint("delete was clicked");
+                      });
+                    },
+                    color: Colors.deepPurple,
+                    textColor: Colors.white,
+                    child: Text(
+                      "Delete",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ))
+                ],
+              )
+            ],
+          ),
+        ));
   }
 }

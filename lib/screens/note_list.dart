@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notes_app/screens/note_detail.dart';
 
 class NoteList extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return NoteListState();
   }
-
-
 }
 
 class NoteListState extends State<NoteList> {
@@ -22,7 +21,7 @@ class NoteListState extends State<NoteList> {
       body: getNoteListView(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          debugPrint("flaoting ");
+          navigateToDetails('Add Note');
         },
         tooltip: 'Add note',
         child: Icon(Icons.add),
@@ -31,11 +30,9 @@ class NoteListState extends State<NoteList> {
   }
 
   ListView getNoteListView() {
-    TextStyle textStyle = Theme
-        .of(context)
-        .textTheme
-        .bodyText1;
-    return ListView.builder(itemCount: count,
+    TextStyle textStyle = Theme.of(context).textTheme.bodyText1;
+    return ListView.builder(
+      itemCount: count,
       itemBuilder: (BuildContext context, int index) {
         return Card(
           color: Colors.white,
@@ -44,23 +41,29 @@ class NoteListState extends State<NoteList> {
             leading: CircleAvatar(
               backgroundColor: Colors.yellow,
               child: Icon(Icons.keyboard_arrow_right),
-
             ),
-            title: Text('Dummy title',style: textStyle,),
+            title: Text(
+              'Dummy title',
+              style: textStyle,
+            ),
             subtitle: Text('Dummy date'),
-            trailing: Icon(Icons.delete,color: Colors.grey,),
+            trailing: Icon(
+              Icons.delete,
+              color: Colors.grey,
+            ),
             onTap: () {
               debugPrint("hey");
+              navigateToDetails('Edit Note');
             },
           ),
         );
-
       },
-
-
     );
   }
+
+  void navigateToDetails(String title) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return NoteDetails(title);
+    }));
+  }
 }
-
-
-
