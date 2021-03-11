@@ -23,7 +23,11 @@ class NoteStateDetails extends State<NoteDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop:  () {
+        onBackScreen();
+      },
+      child:Scaffold(
         appBar: AppBar(
           title: Text(appBarTittle),
         ),
@@ -121,6 +125,9 @@ class NoteStateDetails extends State<NoteDetails> {
               )
             ],
           ),
-        ));
+        )));
+  }
+  void onBackScreen(){
+    Navigator.pop(context);
   }
 }
