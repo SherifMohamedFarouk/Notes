@@ -5,18 +5,18 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
 class DatabaseHelper {
-  static DatabaseHelper _databaseHelper;    // Singleton DatabaseHelper
-  static Database _database;
 
-  String noteTable = 'notet_table' ;
+  static DatabaseHelper _databaseHelper;    // Singleton DatabaseHelper
+  static Database _database;                // Singleton Database
+
+  String noteTable = 'note_table';
   String colId = 'id';
   String colTitle = 'title';
-  String colPriority  = 'priority';
-  String colDate= 'date';
   String colDescription = 'description';
+  String colPriority = 'priority';
+  String colDate = 'date';
 
-
-  DatabaseHelper._createInstance();
+  DatabaseHelper._createInstance(); // Named constructor to create instance of DatabaseHelper
 
   factory DatabaseHelper() {
 
@@ -87,4 +87,20 @@ class DatabaseHelper {
     int result = Sqflite.firstIntValue(x);
     return result;
   }
+
+  // Get the 'Map List' [ List<Map> ] and convert it to 'Note List' [ List<Note> ]
+  Future<List<Note>> getNoteList() async {
+
+    var noteMapList = await getNoteMapList(); // Get 'Map List' from database
+    int count = noteMapList.length;         // Count the number of map entries in db table
+
+    List<Note> noteList = List<Note>();
+    // For loop to create a 'Note List' from a 'Map List'
+    for (int i = 0; i < count; i++) {
+      noteList.add(Note.fromMapObject(noteMapList[i]));
+    }
+
+    return noteList;
+  }
+
 }
